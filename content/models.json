@@ -1,0 +1,13 @@
+[
+  { "slug": "ff338", "name": "FF338", "family": "Semi-hollow (335-style)", "status": "current", "sort_order": 1, "aliases": ["FF338", "FF-338", "338"], "specs": {} },
+  { "slug": "ffth", "name": "FFTH Thinline", "family": "Semi-hollow (Thinline)", "status": "current", "sort_order": 2, "aliases": ["FFTH", "Thinline"], "specs": {} },
+  { "slug": "fflps", "name": "FFLPS", "family": "Single-cut (LP-style)", "status": "current", "sort_order": 3, "aliases": ["FFLPS", "FFLP", "LPS"], "specs": {} },
+  { "slug": "ffdc", "name": "FFDC", "family": "Double-cut", "status": "current", "sort_order": 4, "aliases": ["FFDC"], "specs": {} },
+  { "slug": "ffst", "name": "FFST", "family": "S-style", "status": "current", "sort_order": 5, "aliases": ["FFST"], "specs": {} },
+  { "slug": "fftl", "name": "FFTL", "family": "T-style", "status": "current", "sort_order": 6, "aliases": ["FFTL"], "specs": {} },
+  { "slug": "ffsp", "name": "FFSP", "family": "SP-style", "status": "current", "sort_order": 7, "aliases": ["FFSP"], "specs": {} },
+  { "slug": "fflg", "name": "FFLG", "family": "LG-style", "status": "current", "sort_order": 8, "aliases": ["FFLG"], "specs": {} },
+  { "slug": "ffvx", "name": "FFVX", "family": "V-style", "status": "current", "sort_order": 9, "aliases": ["FFVX"], "specs": {} },
+  { "slug": "pegasus", "name": "Pegasus", "family": "Offset", "status": "current", "sort_order": 10, "aliases": ["Pegasus"], "specs": {} },
+  { "slug": "ffhb", "name": "Hollow Body", "family": "Full hollow", "status": "current", "sort_order": 11, "aliases": ["FFHB", "Hollow Body", "Hollowbody"], "specs": {} }
+]
