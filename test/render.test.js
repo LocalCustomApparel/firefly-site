@@ -22,3 +22,8 @@ test('layout carries disclaimer, nav and canonical', () => {
 test('noindexPage forces robots meta', () => {
   assert.ok(layout({ title: 'T', desc: '', path: '/x', body: '', noindexPage: true }).includes('noindex'));
 });
+test('jsonld cannot break out of its script tag', () => {
+  const html = layout({ title: 'T', desc: '', path: '/x', body: '', jsonld: { name: 'evil</script><script>alert(1)</script>' } });
+  assert.ok(!html.includes('</script><script>alert'));
+  assert.ok(html.includes('\\u003c/script'));
+});
