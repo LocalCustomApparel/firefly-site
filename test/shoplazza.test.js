@@ -4,12 +4,13 @@ const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const { parseSitemapProductUrls, parseProductPage, fetchCatalog } = require('../scrape/shoplazza');
+const { parseSitemapProductUrls, parseProductPage, fetchCatalog, maybeGunzip } = require('../scrape/shoplazza');
 const { RateLimited } = require('../scrape/errors');
 const { setHttpImpl } = require('../scrape/http');
 
 const xml = fs.readFileSync(path.join(__dirname, 'fixtures/shoplazza-sitemap.xml'), 'utf8');
 const html = fs.readFileSync(path.join(__dirname, 'fixtures/shoplazza-product.html'), 'utf8');
+const realGzipChildFixture = fs.readFileSync(path.join(__dirname, 'fixtures/shoplazza-sitemap-child.xml.gz'));
 
 const fakeStore = { base: 'https://fake.test' };
 
@@ -66,6 +67,13 @@ test('product page: real fixture is OutOfStock, priced at 199, no sku, vendor fa
 test('parseProductPage returns null when the page has no Product JSON-LD block', () => {
   const n = parseProductPage('<html><body>no ld+json here</body></html>', 'https://fake.test/products/x');
   assert.equal(n, null);
+});
+
+test('maybeGunzip decompresses real gzipped child sitemap fixture and yields product urls', () => {
+  const inflated = maybeGunzip(realGzipChildFixture);
+  const urls = parseSitemapProductUrls(inflated);
+  assert.ok(urls.length > 0, 'real child sitemap should yield product urls');
+  assert.ok(urls.every(u => u.includes('/products/')), 'all urls should be product urls');
 });
 
 // --- fetchCatalog behavior (mocked httpImpl; no live network in tests) ---

@@ -93,4 +93,4 @@ async function fetchCatalog(storeCfg) {
   return out;
 }
 
-module.exports = { parseSitemapProductUrls, parseProductPage, fetchCatalog, supportsPings: false };
+module.exports = { parseSitemapProductUrls, parseProductPage, fetchCatalog, maybeGunzip, supportsPings: false };
