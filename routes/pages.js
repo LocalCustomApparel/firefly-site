@@ -152,6 +152,35 @@ ${p.image ? `<img class="hero-img" src="${esc(p.image)}" alt="">` : ''}
     res.send(layout({ title: p.title, desc: `Tracked Firefly listing: ${p.title}`, path: `/listing/${req.params.code}/${p.id}`, body, noindexPage: true }));
   });
 
+  const historyOf = (store, id) => {
+    const d = gdb.detail(store, id);
+    if (!d) return null;
+    return { title: d.product.title, currency: d.product.currency,
+      price: d.price.map(r => [r.ts, r.price]), stock: d.stock.map(r => [r.ts, r.quantity]) };
+  };
+  app.get('/api/site/history/:code/:id.json', (req, res) => {
+    const sc = cfg.storeByCode(req.params.code);
+    const h = sc && historyOf(sc.store, req.params.id);
+    if (!h) return res.status(404).json({ error: 'not found' });
+    res.json(h);
+  });
+  app.get('/api/site/model/:slug/history.json', (req, res) => {
+    const series = wdb.mappingsForModel(req.params.slug)
+      .map(m => historyOf(m.store, m.product_id)).filter(Boolean);
+    res.json({ series });
+  });
+  app.get('/analytics', (req, res) => {
+    const fmtH = ms => ms ? `${(ms / 3600000).toFixed(1)} h` : '—';
+    const block = (label, s) => `
+<section class="card"><h2>${label}</h2>
+<p>${s.total_drops} drops tracked · ${s.drops_last_30d} in the last 30 days</p>
+<p>Avg time to sell out: ${fmtH(s.avg_time_to_sellout_ms)} · Avg sell-through: ${(s.sell_through_avg * 100).toFixed(0)}%</p></section>`;
+    const body = `<h1>Analytics</h1>
+${block('US store', gdb.stats({ store: cfg.STORES.us.store }))}
+${block('UK store', gdb.stats({ store: cfg.STORES.uk.store }))}`;
+    res.send(layout({ title: 'Drop analytics', desc: 'How fast Firefly drops sell out, drop cadence and pricing trends.', path: '/analytics', body }));
+  });
+
   function notFound(res) {
     res.status(404).send(layout({ title: 'Not found', desc: '', path: '/404', body: '<h1>Not found</h1><p>Try the <a href="/models">model index</a> or <a href="/drops">drop history</a>.</p>', noindexPage: true }));
   }

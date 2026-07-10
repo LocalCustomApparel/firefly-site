@@ -90,3 +90,43 @@ test('listing with non-existent product id 404s', async () => {
   assert.equal(r.status, 404);
   assert.ok((await r.text()).includes('Not found'));
 });
+
+test('history json exposes price and stock series', async () => {
+  const j = await (await fetch(base + '/api/site/history/us/1.json')).json();
+  assert.equal(j.currency, 'USD');
+  assert.ok(Array.isArray(j.price));
+});
+
+test('model history json returns a series array with titles', async () => {
+  const j = await (await fetch(base + '/api/site/model/ff338/history.json')).json();
+  assert.ok(Array.isArray(j.series));
+  assert.ok(j.series.some(s => s.title.includes('FF338')));
+});
+
+test('history json 404s for unknown store code or product', async () => {
+  const r1 = await fetch(base + '/api/site/history/xx/1.json');
+  assert.equal(r1.status, 404);
+  const r2 = await fetch(base + '/api/site/history/us/999999.json');
+  assert.equal(r2.status, 404);
+});
+
+test('analytics renders per-store stats', async () => {
+  const html = await (await fetch(base + '/analytics')).text();
+  assert.ok(html.includes('US store'));
+  assert.ok(html.includes('UK store'));
+});
+
+test('cached JSON history response keeps application/json content-type on the cache hit', async () => {
+  const url = base + '/api/site/history/us/1.json';
+  const r1 = await fetch(url);
+  assert.equal(r1.status, 200);
+  assert.match(r1.headers.get('content-type') || '', /application\/json/);
+  const body1 = await r1.text();
+
+  const r2 = await fetch(url);
+  assert.equal(r2.status, 200);
+  assert.match(r2.headers.get('content-type') || '', /application\/json/);
+  const body2 = await r2.text();
+
+  assert.equal(body1, body2);
+});
