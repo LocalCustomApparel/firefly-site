@@ -14,16 +14,16 @@ const WDB = path.join(os.tmpdir(), `ff-site-w-${process.pid}.db`);
 const g = gopen(GDB), w = wopen(WDB);
 const now = Date.now();
 const oldTime = now - 86400000; // 1 day ago
-g.insertProduct({ store: 'guitarsgarden.com', id: '1', title: 'Firefly FF338 (Blue)', handle: 'ff338-blue',
-  variant_id: '9', first_seen_at: now, launch_price: 279, current_price: 279, currency: 'USD',
-  current_qty: 4, current_available: 1, initial_stock: 20, last_seen_at: now, raw_json: '{}', image: 'https://example.com/ff338-blue.jpg' });
 g.insertProduct({ store: 'guitarsgarden.com', id: '2', title: 'Firefly FF338 (Red)', handle: 'ff338-red',
   variant_id: '10', first_seen_at: oldTime, launch_price: 279, current_price: 279, currency: 'USD',
   current_qty: 0, current_available: 0, initial_stock: 10, last_seen_at: oldTime, raw_json: '{}', image: 'https://example.com/ff338-red.jpg', delisted_at: oldTime });
+g.insertProduct({ store: 'guitarsgarden.com', id: '1', title: 'Firefly FF338 (Blue)', handle: 'ff338-blue',
+  variant_id: '9', first_seen_at: now, launch_price: 279, current_price: 279, currency: 'USD',
+  current_qty: 4, current_available: 1, initial_stock: 20, last_seen_at: now, raw_json: '{}', image: 'https://example.com/ff338-blue.jpg' });
 g.recordRun('guitarsgarden.com', Date.now(), 2, 2, 100, null);
 w.syncModels(require('../content/models.json'));
-w.mapProduct({ store: 'guitarsgarden.com', productId: '1', modelSlug: 'ff338', finish: 'Blue', source: 'auto' });
 w.mapProduct({ store: 'guitarsgarden.com', productId: '2', modelSlug: 'ff338', finish: 'Red', source: 'auto' });
+w.mapProduct({ store: 'guitarsgarden.com', productId: '1', modelSlug: 'ff338', finish: 'Blue', source: 'auto' });
 
 let server, base;
 test.before(async () => {
