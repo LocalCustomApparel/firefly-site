@@ -28,10 +28,12 @@ CREATE INDEX IF NOT EXISTS idx_links_slug ON model_links(model_slug);
 function open(dbPath, { readonly = false } = {}) {
   const db = new Database(dbPath, { readonly });
   if (!readonly) { db.pragma('journal_mode = WAL'); db.exec(SCHEMA); }
+  const assertWritable = () => { if (readonly) throw new Error('readonly'); };
   return {
     db,
     close: () => db.close(),
     syncModels(list) {
+      assertWritable();
       const up = db.prepare(`INSERT INTO models (slug, name, family, status, sort_order, aliases, specs_json)
         VALUES (@slug, @name, @family, @status, @sort_order, @aliases, @specs_json)
         ON CONFLICT(slug) DO UPDATE SET name=@name, family=@family, status=@status, sort_order=@sort_order, aliases=@aliases, specs_json=@specs_json`);
@@ -50,6 +52,7 @@ function open(dbPath, { readonly = false } = {}) {
       return m ? { ...m, aliases: JSON.parse(m.aliases), specs: JSON.parse(m.specs_json) } : null;
     },
     mapProduct({ store, productId, modelSlug, finish, source }) {
+      assertWritable();
       db.prepare(`INSERT INTO model_products (store, product_id, model_slug, finish, source)
         VALUES (?,?,?,?,?)
         ON CONFLICT(store, product_id) DO UPDATE SET
@@ -60,6 +63,7 @@ function open(dbPath, { readonly = false } = {}) {
     mappingFor: (store, productId) => db.prepare('SELECT * FROM model_products WHERE store = ? AND product_id = ?').get(store, String(productId)),
     mappingsForModel: slug => db.prepare('SELECT * FROM model_products WHERE model_slug = ?').all(slug),
     insertWayback(r) {
+      assertWritable();
       db.prepare(`INSERT INTO wayback_drops (store, handle, title, model_slug, price, currency, first_snapshot_at, last_snapshot_at, snapshot_url, confidence)
         VALUES (@store, @handle, @title, @modelSlug, @price, @currency, @firstSnapshotAt, @lastSnapshotAt, @snapshotUrl, @confidence)
         ON CONFLICT(store, handle, first_snapshot_at) DO UPDATE SET
@@ -68,8 +72,11 @@ function open(dbPath, { readonly = false } = {}) {
     },
     waybackForModel: slug => db.prepare('SELECT * FROM wayback_drops WHERE model_slug = ? ORDER BY first_snapshot_at DESC').all(slug),
     allWayback: () => db.prepare('SELECT * FROM wayback_drops ORDER BY first_snapshot_at DESC').all(),
-    addLink: l => db.prepare('INSERT INTO model_links (model_slug, kind, url, title, added_at) VALUES (?,?,?,?,?)')
-      .run(l.modelSlug, l.kind, l.url, l.title || null, l.addedAt || Date.now()),
+    addLink(l) {
+      assertWritable();
+      db.prepare('INSERT INTO model_links (model_slug, kind, url, title, added_at) VALUES (?,?,?,?,?)')
+        .run(l.modelSlug, l.kind, l.url, l.title || null, l.addedAt || Date.now());
+    },
     linksFor: slug => db.prepare('SELECT * FROM model_links WHERE model_slug = ? ORDER BY kind, id').all(slug),
   };
 }

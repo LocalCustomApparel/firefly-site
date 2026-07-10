@@ -41,3 +41,19 @@ test('links round-trip', () => {
   w.addLink({ modelSlug: 'ff338', kind: 'youtube', url: 'https://youtu.be/x', title: 'Demo', addedAt: 1 });
   assert.equal(w.linksFor('ff338').length, 1);
 });
+
+test('readonly mode: reads work, all writes throw', () => {
+  const ro = open(DB, { readonly: true });
+
+  // Reads work
+  assert.equal(ro.getModel('ff338').name, 'FF338');
+  assert(ro.linksFor('ff338').length > 0);
+
+  // Writes throw with readonly message
+  assert.throws(() => ro.syncModels([]), /readonly/);
+  assert.throws(() => ro.mapProduct({ store: 's', productId: '999', modelSlug: 'ff338', finish: 'Blue', source: 'auto' }), /readonly/);
+  assert.throws(() => ro.insertWayback({ store: 's', handle: 'hh', firstSnapshotAt: 100, lastSnapshotAt: 200 }), /readonly/);
+  assert.throws(() => ro.addLink({ modelSlug: 'ff338', kind: 'blog', url: 'http://x', title: 'x' }), /readonly/);
+
+  ro.close();
+});
