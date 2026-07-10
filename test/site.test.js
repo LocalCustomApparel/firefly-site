@@ -47,3 +47,22 @@ test('drops filters by store', async () => {
   const uk = await (await fetch(base + '/drops?store=uk')).text();
   assert.ok(!uk.includes('FF338'));
 });
+
+test('model page renders specs, drop history and jsonld', async () => {
+  const r = await fetch(base + '/models/ff338');
+  assert.equal(r.status, 200);
+  const html = await r.text();
+  assert.ok(html.includes('FF338'));
+  assert.ok(html.includes('application/ld+json'));
+  assert.ok(html.includes('Firefly FF338 (Blue)')); // mapped product listed
+});
+test('unknown model 404s with a page', async () => {
+  const r = await fetch(base + '/models/nope');
+  assert.equal(r.status, 404);
+  assert.ok((await r.text()).includes('/models'));
+});
+test('listing page renders and is noindexed even in production markup', async () => {
+  const html = await (await fetch(base + '/listing/us/1')).text();
+  assert.ok(html.includes('Firefly FF338 (Blue)'));
+  assert.ok(html.includes('noindex'));
+});

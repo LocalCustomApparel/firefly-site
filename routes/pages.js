@@ -74,4 +74,85 @@ ${rows.map(x => x.kind === 'tracked' ? `
 </tbody></table></div>`;
     res.send(layout({ title: 'Drop history', desc: 'Every Firefly guitar drop we have tracked or reconstructed from archives.', path: '/drops', body }));
   });
+
+  const fs = require('fs');
+  const path = require('path');
+  const proseFor = slug => {
+    const f = path.join(__dirname, '..', 'content', 'models', `${slug}.md`);
+    return fs.existsSync(f) ? md(fs.readFileSync(f, 'utf8')) : null;
+  };
+  const productsOf = slug => wdb.mappingsForModel(slug)
+    .map(m => ({ m, p: gdb.getProduct(m.store, m.product_id) })).filter(x => x.p);
+
+  app.get('/models', (req, res) => {
+    const models = wdb.allModels();
+    const byFamily = new Map();
+    for (const m of models) {
+      const prods = productsOf(m.slug);
+      const entry = { ...m, count: prods.length, image: (prods.find(x => x.p.image) || {}).p?.image || null,
+        liveCount: prods.filter(x => !x.p.delisted_at && (x.p.current_qty > 0 || (x.p.current_available && x.p.current_qty == null))).length };
+      if (!byFamily.has(m.family)) byFamily.set(m.family, []);
+      byFamily.get(m.family).push(entry);
+    }
+    const body = `<h1>Models</h1>` + [...byFamily.entries()].map(([fam, list]) => `
+<h2>${esc(fam)}</h2>
+<div class="grid">${list.map(m => `
+  <a class="card" href="/models/${esc(m.slug)}">
+    ${m.image ? `<img loading="lazy" src="${esc(m.image)}" alt="">` : ''}
+    <h3>${esc(m.name)}</h3>
+    <p>${m.count} tracked drops${m.liveCount ? ` · <strong>${m.liveCount} live</strong>` : ''}</p>
+  </a>`).join('')}</div>`).join('');
+    res.send(layout({ title: 'Firefly guitar models', desc: 'Every Firefly guitar model — specs, drops, prices, history.', path: '/models', body }));
+  });
+
+  app.get('/models/:slug', (req, res) => {
+    const m = wdb.getModel(req.params.slug);
+    if (!m) return notFound(res);
+    const prods = productsOf(m.slug).sort((a, b) => (b.p.first_seen_at || 0) - (a.p.first_seen_at || 0));
+    const live = prods.filter(x => !x.p.delisted_at && (x.p.current_qty > 0 || (x.p.current_available && x.p.current_qty == null)));
+    const wayback = wdb.waybackForModel(m.slug);
+    const links = wdb.linksFor(m.slug);
+    const prose = proseFor(m.slug);
+    const image = (prods.find(x => x.p.image) || {}).p?.image || null;
+    const specRows = Object.entries(m.specs);
+    const jsonld = {
+      '@context': 'https://schema.org', '@type': 'Product', name: `Firefly ${m.name}`,
+      ...(image ? { image } : {}), brand: { '@type': 'Brand', name: 'Firefly' },
+      offers: live.map(x => ({ '@type': 'Offer', price: x.p.current_price, priceCurrency: x.p.currency,
+        availability: 'https://schema.org/InStock', url: `${cfg.SITE_URL}/models/${m.slug}` })),
+    };
+    const body = `
+<h1>Firefly ${esc(m.name)}</h1>
+<p class="muted">${esc(m.family || '')}${m.status !== 'current' ? ` · ${esc(m.status)}` : ''}</p>
+${prose ? `<section class="prose">${prose}</section>` : ''}
+${specRows.length ? `<h2>Specs</h2><div class="table-wrap"><table class="table">${specRows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</table></div>` : ''}
+${live.length ? `<h2>Live now</h2><div class="grid">${live.map(x => `
+  <span class="card"><h3>${esc(x.p.title)}</h3><p>${money(x.p.current_price, x.p.currency)} ${storeBadge(x.p.store)} · ${x.p.current_qty != null ? `${x.p.current_qty} left` : 'qty unknown'}</p></span>`).join('')}</div>` : ''}
+${prods.length || wayback.length ? `<h2>Drop history</h2><div class="table-wrap"><table class="table"><tbody>
+${prods.map(x => `<tr><td>${new Date(x.p.first_seen_at).toISOString().slice(0, 10)}</td><td>${esc(x.p.title)}</td><td>${storeBadge(x.p.store)}</td><td>${money(x.p.launch_price, x.p.currency)}</td><td>${x.p.sold_out_at ? 'sold out ' + esc(timeAgo(x.p.sold_out_at)) : x.p.delisted_at ? 'delisted' : 'live'}</td></tr>`).join('')}
+${wayback.map(r => `<tr class="archived"><td>${new Date(r.first_snapshot_at).toISOString().slice(0, 10)}</td><td>${esc(r.title)} <span class="badge">archived</span></td><td>${storeBadge(r.store)}</td><td>${money(r.price, r.currency)}</td><td><a href="${esc(r.snapshot_url)}" rel="noopener">snapshot</a></td></tr>`).join('')}
+</tbody></table></div>` : ''}
+${prods.length ? `<h2>Price & stock</h2><div class="chart" data-slug="${esc(m.slug)}"></div><script src="/js/charts.js" defer></script>` : ''}
+${links.length ? `<h2>Around the web</h2><ul>${links.map(l => `<li><a href="${esc(l.url)}" rel="noopener">${esc(l.title || l.url)}</a> <span class="muted">(${esc(l.kind)})</span></li>`).join('')}</ul>` : ''}`;
+    res.send(layout({ title: `Firefly ${m.name} — specs, drops & prices`, desc: `Firefly ${m.name}: specs, every tracked drop, launch prices and stock history.`, path: `/models/${m.slug}`, body, jsonld, ogImage: image }));
+  });
+
+  app.get('/listing/:code/:id', (req, res) => {
+    const sc = cfg.storeByCode(req.params.code);
+    if (!sc) return notFound(res);
+    const d = gdb.detail(sc.store, req.params.id);
+    if (!d) return notFound(res);
+    const p = d.product;
+    const body = `
+<h1>${esc(p.title)}</h1>
+<p>${money(p.current_price, p.currency)} ${storeBadge(p.store)} · ${p.delisted_at ? 'delisted' : p.sold_out_at ? 'sold out' : p.current_available ? 'live' : 'unavailable'}</p>
+${p.image ? `<img class="hero-img" src="${esc(p.image)}" alt="">` : ''}
+<p class="muted">This listing isn't linked to a model page yet.</p>
+<div class="chart" data-listing="${esc(req.params.code)}/${esc(p.id)}"></div><script src="/js/charts.js" defer></script>`;
+    res.send(layout({ title: p.title, desc: `Tracked Firefly listing: ${p.title}`, path: `/listing/${req.params.code}/${p.id}`, body, noindexPage: true }));
+  });
+
+  function notFound(res) {
+    res.status(404).send(layout({ title: 'Not found', desc: '', path: '/404', body: '<h1>Not found</h1><p>Try the <a href="/models">model index</a> or <a href="/drops">drop history</a>.</p>', noindexPage: true }));
+  }
 };
