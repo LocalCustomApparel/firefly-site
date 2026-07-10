@@ -88,7 +88,7 @@ ${rows.map(x => x.kind === 'tracked' ? `
     const models = wdb.allModels();
     const byFamily = new Map();
     for (const m of models) {
-      const prods = productsOf(m.slug);
+      const prods = productsOf(m.slug).sort((a, b) => (b.p.first_seen_at || 0) - (a.p.first_seen_at || 0));
       const entry = { ...m, count: prods.length, image: (prods.find(x => x.p.image) || {}).p?.image || null,
         liveCount: prods.filter(x => !x.p.delisted_at && (x.p.current_qty > 0 || (x.p.current_available && x.p.current_qty == null))).length };
       if (!byFamily.has(m.family)) byFamily.set(m.family, []);
