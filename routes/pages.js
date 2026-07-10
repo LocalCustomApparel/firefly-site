@@ -184,4 +184,51 @@ ${block('UK store', gdb.stats({ store: cfg.STORES.uk.store }))}`;
   function notFound(res) {
     res.status(404).send(layout({ title: 'Not found', desc: '', path: '/404', body: '<h1>Not found</h1><p>Try the <a href="/models">model index</a> or <a href="/drops">drop history</a>.</p>', noindexPage: true }));
   }
+
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send(cfg.SITE_ENV === 'production'
+      ? `User-agent: *\nAllow: /\nDisallow: /listing/\nSitemap: ${cfg.SITE_URL}/sitemap.xml\n`
+      : 'User-agent: *\nDisallow: /\n');
+  });
+
+  app.get('/sitemap.xml', (req, res) => {
+    const statics = ['/', '/live', '/drops', '/models', '/analytics', '/about', '/privacy'];
+    const lastEvent = gdb.db.prepare('SELECT MAX(ts) t FROM events').get().t || Date.now();
+    const lastmod = new Date(lastEvent).toISOString().slice(0, 10);
+    const urls = statics.concat(wdb.allModels().map(m => `/models/${m.slug}`))
+      .map(u => `<url><loc>${cfg.SITE_URL}${u}</loc><lastmod>${lastmod}</lastmod></url>`).join('');
+    res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`);
+  });
+
+  app.get('/feed.xml', (req, res) => {
+    const evs = gdb.db.prepare("SELECT * FROM events WHERE type='drop' ORDER BY ts DESC LIMIT 50").all();
+    const items = evs.map(e => {
+      const p = gdb.getProduct(e.store, e.product_id);
+      if (!p) return '';
+      const mapping = wdb.mappingFor(e.store, e.product_id);
+      const link = cfg.SITE_URL + href(mapping, e.store, e.product_id);
+      const label = (cfg.byStore[e.store] || {}).label || e.store;
+      return `<item><title>${esc(`[${label}] ${p.title} — ${money(p.launch_price, p.currency)}`)}</title><link>${esc(link)}</link><guid isPermaLink="false">${esc(`${e.store}:${e.product_id}:${e.ts}`)}</guid><pubDate>${new Date(e.ts).toUTCString()}</pubDate></item>`;
+    }).join('');
+    res.type('application/rss+xml').send(`<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${esc(cfg.SITE_NAME)} — new Firefly drops</title><link>${cfg.SITE_URL}</link><description>New Firefly guitar drops as we detect them.</description>${items}</channel></rss>`);
+  });
+
+  app.get('/about', (req, res) => {
+    const body = `<h1>About</h1>
+<p>${esc(cfg.SITE_NAME)} tracks every Firefly guitar drop across the US and UK Guitars Garden stores — live stock, launch prices, sell-out times — and collects what the community knows about each model.</p>
+<p>Data updates every few minutes; history before mid-2026 is reconstructed from the Internet Archive and labelled <span class="badge">archived</span>.</p>
+<p>Unofficial fan site — not affiliated with Firefly Guitars or Guitars Garden.</p>
+${cfg.CONTACT_EMAIL ? `<p>Contact: <a href="mailto:${esc(cfg.CONTACT_EMAIL)}">${esc(cfg.CONTACT_EMAIL)}</a></p>` : ''}
+${cfg.BMAC_URL ? `<p>If this site saved you from missing a drop: <a href="${esc(cfg.BMAC_URL)}" rel="noopener">buy me a coffee ☕</a></p>` : ''}`;
+    res.send(layout({ title: 'About', desc: 'What this site is and where the data comes from.', path: '/about', body }));
+  });
+
+  app.get('/privacy', (req, res) => {
+    const body = `<h1>Privacy</h1>
+<p>This site sets no cookies and runs no trackers. Aggregate, cookieless traffic analytics are provided by Cloudflare. Product images are served from the stores' own CDNs. If ads are introduced in future, this policy will be updated first.</p>`;
+    res.send(layout({ title: 'Privacy', desc: 'No cookies, no trackers.', path: '/privacy', body }));
+  });
+
+  app.use((req, res) => notFound(res));
 };

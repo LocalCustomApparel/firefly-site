@@ -21,6 +21,7 @@ g.insertProduct({ store: 'guitarsgarden.com', id: '1', title: 'Firefly FF338 (Bl
   variant_id: '9', first_seen_at: now, launch_price: 279, current_price: 279, currency: 'USD',
   current_qty: 4, current_available: 1, initial_stock: 20, last_seen_at: now, raw_json: '{}', image: 'https://example.com/ff338-blue.jpg' });
 g.recordRun('guitarsgarden.com', Date.now(), 2, 2, 100, null);
+g.insertEvent('guitarsgarden.com', '1', now, 'drop', { store: 'guitarsgarden.com', product_id: '1' });
 w.syncModels(require('../content/models.json'));
 w.mapProduct({ store: 'guitarsgarden.com', productId: '2', modelSlug: 'ff338', finish: 'Red', source: 'auto' });
 w.mapProduct({ store: 'guitarsgarden.com', productId: '1', modelSlug: 'ff338', finish: 'Blue', source: 'auto' });
@@ -129,4 +130,21 @@ test('cached JSON history response keeps application/json content-type on the ca
   const body2 = await r2.text();
 
   assert.equal(body1, body2);
+});
+
+test('robots disallows all in staging', async () => {
+  const t = await (await fetch(base + '/robots.txt')).text();
+  assert.ok(t.includes('Disallow: /'));
+});
+test('sitemap lists model pages', async () => {
+  const t = await (await fetch(base + '/sitemap.xml')).text();
+  assert.ok(t.includes('/models/ff338'));
+});
+test('rss feed contains the drop', async () => {
+  const t = await (await fetch(base + '/feed.xml')).text();
+  assert.ok(t.includes('<rss'));
+  assert.ok(t.includes('FF338'));
+});
+test('unknown route 404s', async () => {
+  assert.equal((await fetch(base + '/definitely-not-a-page')).status, 404);
 });
