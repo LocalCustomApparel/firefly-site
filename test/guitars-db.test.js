@@ -41,6 +41,9 @@ test('live/drops filter by store and compute derived fields', () => {
 test('readonly mode blocks writes but reads fine', () => {
   const r = open(DB, { readonly: true });
   assert.equal(r.getProduct('guitarsgarden.com', '42').title, 'T42');
-  assert.throws(() => r.insertStock('guitarsgarden.com', '42', 1, 1, 1));
+  assert.throws(() => r.insertStock('guitarsgarden.com', '42', 1, 1, 1), /readonly/);
+  assert.throws(() => r.insertProduct(row('guitarsgarden.com', '99')), /readonly/);
+  assert.throws(() => r.updateProductState('guitarsgarden.com', '42', { title: 'new' }), /readonly/);
+  assert.throws(() => r.markDelisted('guitarsgarden.com', [], 5000), /readonly/);
   r.close();
 });

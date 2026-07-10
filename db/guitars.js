@@ -59,6 +59,7 @@ function open(dbPath, { readonly = false } = {}) {
     run: readonly ? null : db.prepare('INSERT INTO scrape_runs (store, ts, products_seen, full, duration_ms, error) VALUES (?,?,?,?,?,?)'),
   };
   const w = stmt => { if (!stmt) throw new Error('readonly'); return stmt; };
+  const assertWritable = () => { if (readonly) throw new Error('readonly'); };
   const storeFilter = store => store ? { sql: ' AND store = ?', args: [store] } : { sql: '', args: [] };
 
   return {
@@ -66,12 +67,14 @@ function open(dbPath, { readonly = false } = {}) {
     close: () => db.close(),
     getProduct: (store, id) => q.get.get(store, S(id)),
     insertProduct(row) {
+      assertWritable();
       const full = {};
       for (const c of PRODUCT_COLS) full[c] = c in row ? row[c] : null;
       full.id = S(full.id); full.variant_id = S(full.variant_id);
       w(q.insert).run(full);
     },
     updateProductState(store, id, patch) {
+      assertWritable();
       const keys = Object.keys(patch).filter(k => UPDATABLE.has(k));
       if (!keys.length) return;
       const set = keys.map(k => `${k} = @${k}`).join(', ');
@@ -79,11 +82,12 @@ function open(dbPath, { readonly = false } = {}) {
       for (const k of keys) bind[k] = patch[k];
       db.prepare(`UPDATE products SET ${set} WHERE store = @store AND id = @id`).run(bind);
     },
-    insertStock: (store, id, ts, qty, avail) => w(q.stock).run(store, S(id), ts, qty, avail),
-    insertPrice: (store, id, ts, price, compareAt) => w(q.price).run(store, S(id), ts, price, compareAt),
-    insertEvent: (store, id, ts, type, detail) => w(q.event).run(store, S(id), ts, type, JSON.stringify(detail || {})),
-    recordRun: (store, ts, seen, full, ms, err) => w(q.run).run(store, ts, seen, full ? 1 : 0, ms, err),
+    insertStock: (store, id, ts, qty, avail) => { assertWritable(); return w(q.stock).run(store, S(id), ts, qty, avail); },
+    insertPrice: (store, id, ts, price, compareAt) => { assertWritable(); return w(q.price).run(store, S(id), ts, price, compareAt); },
+    insertEvent: (store, id, ts, type, detail) => { assertWritable(); return w(q.event).run(store, S(id), ts, type, JSON.stringify(detail || {})); },
+    recordRun: (store, ts, seen, full, ms, err) => { assertWritable(); return w(q.run).run(store, ts, seen, full ? 1 : 0, ms, err); },
     markDelisted(store, seenIds, ts) {
+      assertWritable();
       const seen = new Set(seenIds.map(S));
       const rows = db.prepare('SELECT id FROM products WHERE store = ? AND delisted_at IS NULL').all(store);
       const flagged = [];
@@ -93,7 +97,7 @@ function open(dbPath, { readonly = false } = {}) {
       })();
       return flagged;
     },
-    withTransaction: fn => db.transaction(fn)(),
+    withTransaction: fn => { assertWritable(); return db.transaction(fn)(); },
     live({ store } = {}) {
       const f = storeFilter(store);
       const rows = db.prepare(
