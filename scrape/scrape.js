@@ -7,6 +7,10 @@ const { RateLimited, sleep } = require('./errors');
 const ADAPTERS = { shopify: require('./shopify'), shoplazza: require('./shoplazza') };
 const MAX_PINGS_PER_CYCLE = Number(process.env.GUITARS_MAX_PINGS || 10);
 const LOW_STOCK = 5;
+// How many of each cycle's ping slots the priority order (new drops / low-stock) may claim.
+// The rest go to pure staleness rotation so a handful of low-stock items can't monopolize a
+// scarce budget and starve the rest of the catalog from ever being read.
+const URGENCY_SLOTS = Number(process.env.GUITARS_URGENCY_SLOTS ?? 1);
 const PING_BASE_MS = Number(process.env.GUITARS_PING_BASE_MS ?? 1400);
 const PING_JITTER_MS = Number(process.env.GUITARS_PING_JITTER_MS ?? 700);
 const pingDelay = () => PING_BASE_MS + Math.floor(Math.random() * PING_JITTER_MS);
@@ -34,9 +38,19 @@ async function scrapeStore(storeCfg, { g, adapter }) {
     return [seenTier, lowFirst, stale];
   };
   const cmp = (a, b) => { const ka = rank(a), kb = rank(b); return (ka[0] - kb[0]) || (ka[1] - kb[1]) || (ka[2] - kb[2]); };
-  const toPing = pingsOn
-    ? new Set(items.filter(x => x.n.available).sort(cmp).slice(0, MAX_PINGS_PER_CYCLE).map(x => x.n.id))
-    : new Set();
+  // Reserve most of the budget for staleness rotation (never-pinged / oldest-checked first) so
+  // the whole catalog is covered over time; let the priority order claim only URGENCY_SLOTS for
+  // fast-sellout detection. Without this a few low-stock items eat the budget every cycle.
+  const toPing = new Set();
+  if (pingsOn) {
+    const avail = items.filter(x => x.n.available);
+    const staleOf = it => (it.prev && it.prev.last_pinged_at ? it.prev.last_pinged_at : 0);
+    const urgentBudget = Math.min(URGENCY_SLOTS, MAX_PINGS_PER_CYCLE);
+    for (const it of [...avail].sort(cmp)) { if (toPing.size >= urgentBudget) break; toPing.add(it.n.id); }
+    for (const it of [...avail].sort((a, b) => staleOf(a) - staleOf(b))) {
+      if (toPing.size >= MAX_PINGS_PER_CYCLE) break; toPing.add(it.n.id);
+    }
+  }
 
   let eventCount = 0, pinged = 0, stopPinging = false, rateLimitedMsg = null;
 

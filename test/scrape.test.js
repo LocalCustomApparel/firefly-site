@@ -144,6 +144,29 @@ test('sold-out inference via ping: qty 5→0 records sold_out event', async () =
   assert.equal(events.length, 1, 'should have exactly one sold_out event');
 });
 
+test('budget is not monopolized by low-stock items: coverage products still get read', async () => {
+  // 10 low-stock items (qty 3) fill the whole budget every cycle under naive low-stock-first
+  // ranking; 2 never-read products must still be covered rather than starved forever.
+  for (let i = 500; i < 510; i++) {
+    g.insertProduct({ store: 'guitarsgarden.com', id: String(i), currency: 'USD', title: `low ${i}`,
+      variant_id: '9', handle: `h${i}`, first_seen_at: 1000, launch_price: 250, current_price: 250,
+      current_qty: 3, current_available: 1, last_seen_at: 1000, last_pinged_at: 5000, raw_json: '{}' });
+  }
+  for (const id of ['520', '521']) {
+    g.insertProduct({ store: 'guitarsgarden.com', id, currency: 'USD', title: `coverage ${id}`,
+      variant_id: '9', handle: `h${id}`, first_seen_at: 1000, launch_price: 250, current_price: 250,
+      current_qty: null, current_available: 1, last_seen_at: 1000, raw_json: '{}' });
+  }
+  const catalog = [];
+  for (let i = 500; i < 510; i++) catalog.push(prod(i));
+  catalog.push(prod(520), prod(521));
+  const pingAdapter = { supportsPings: true, fetchCatalog: async () => catalog, fetchQuantity: async () => 42 };
+  await scrapeStore(cfg.STORES.us, { g, adapter: pingAdapter });
+
+  assert.notEqual(g.getProduct('guitarsgarden.com', '520').current_qty, null, 'coverage product 520 read, not starved');
+  assert.notEqual(g.getProduct('guitarsgarden.com', '521').current_qty, null, 'coverage product 521 read, not starved');
+});
+
 test('UK restock (no pings): sold-out product becomes available again and reappears in g.live()', async () => {
   g.insertProduct({
     store: 'guitarsgarden.co.uk', id: '400', currency: 'GBP', title: 'Firefly UK Restock',
