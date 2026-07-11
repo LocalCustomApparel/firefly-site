@@ -48,7 +48,7 @@ const S = v => v === null || v === undefined ? v : String(v);
 
 function open(dbPath, { readonly = false } = {}) {
   const db = new Database(dbPath, { readonly });
-  if (!readonly) { db.pragma('journal_mode = WAL'); db.exec(SCHEMA); }
+  if (!readonly) { db.pragma('journal_mode = WAL'); db.pragma('busy_timeout = 5000'); db.exec(SCHEMA); }
 
   const q = {
     get: db.prepare('SELECT * FROM products WHERE store = ? AND id = ?'),

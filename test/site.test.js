@@ -104,6 +104,13 @@ test('model history json returns a series array with titles', async () => {
   assert.ok(j.series.some(s => s.title.includes('FF338')));
 });
 
+test('model history json 404s for unknown slug (does not mint a cacheable empty-series 200)', async () => {
+  const r = await fetch(base + '/api/site/model/nope-not-a-model/history.json');
+  assert.equal(r.status, 404);
+  const j = await r.json();
+  assert.equal(j.error, 'not found');
+});
+
 test('history json 404s for unknown store code or product', async () => {
   const r1 = await fetch(base + '/api/site/history/xx/1.json');
   assert.equal(r1.status, 404);

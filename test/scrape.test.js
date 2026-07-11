@@ -143,3 +143,22 @@ test('sold-out inference via ping: qty 5→0 records sold_out event', async () =
   const events = g.db.prepare("SELECT * FROM events WHERE store='guitarsgarden.com' AND product_id='300' AND type='sold_out'").all();
   assert.equal(events.length, 1, 'should have exactly one sold_out event');
 });
+
+test('UK restock (no pings): sold-out product becomes available again and reappears in g.live()', async () => {
+  g.insertProduct({
+    store: 'guitarsgarden.co.uk', id: '400', currency: 'GBP', title: 'Firefly UK Restock',
+    variant_id: '9', handle: 'h400', first_seen_at: 2000, launch_price: 250,
+    current_price: 250, current_qty: 0, current_available: 0, last_seen_at: 2000,
+    raw_json: '{}',
+  });
+  assert.equal(g.live({ store: 'guitarsgarden.co.uk' }).some(x => x.id === '400'), false, 'sold out product should not be live yet');
+  const r = await scrapeStore(cfg.STORES.uk, { g, adapter: stubAdapter([prod(400, { available: true })]) });
+  assert.equal(r.seen, 1);
+  const p = g.getProduct('guitarsgarden.co.uk', '400');
+  assert.equal(p.current_qty, null, 'stale 0 qty should be cleared since UK never pings');
+  assert.equal(p.current_available, 1);
+  const events = g.db.prepare("SELECT * FROM events WHERE store='guitarsgarden.co.uk' AND product_id='400' AND type='restock'").all();
+  assert.equal(events.length, 1, 'should have exactly one restock event');
+  const live = g.live({ store: 'guitarsgarden.co.uk' });
+  assert.ok(live.some(x => x.id === '400'), 'restocked product should reappear on the live board');
+});

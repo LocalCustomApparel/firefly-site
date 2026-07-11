@@ -113,6 +113,24 @@ test('decideChanges: backfills initial_stock on first real reading, no spurious 
   assert.equal(r.events.length, 0); // no sold_out/restock without a prior baseline
 });
 
+test('decideChanges: pingless store sold-out (unknown qty -> 0/unavailable) infers sold_out from prior availability', () => {
+  const prev = { current_price: 100, current_compare_at: null, current_qty: null, current_available: 1, sold_out_at: null, restock_count: 0, delisted_at: null };
+  const r = decideChanges(prev, { price: 100, compare_at: null, qty: 0, available: false }, 5000);
+  assert.equal(r.writeStock, true);
+  assert.deepEqual(r.events.map(e => e.type), ['sold_out']);
+  assert.equal(r.patch.sold_out_at, 5000);
+});
+
+test('decideChanges: pingless store restock (0/unavailable -> unknown qty/available) infers restock and nulls the stale qty', () => {
+  const prev = { current_price: 100, current_compare_at: null, current_qty: 0, current_available: 0, sold_out_at: 4000, restock_count: 0, delisted_at: null };
+  const r = decideChanges(prev, { price: 100, compare_at: null, qty: null, available: true }, 6000);
+  assert.equal(r.writeStock, true);
+  assert.deepEqual(r.events.map(e => e.type), ['restock']);
+  assert.equal(r.patch.restock_count, 1);
+  assert.equal(r.patch.current_qty, null);
+  assert.ok('current_qty' in r.patch);
+});
+
 test('decideChanges: reappearance after delist emits relisted and clears delisted_at', () => {
   const prev = { current_price: 100, current_compare_at: null, current_qty: 5, current_available: 1, sold_out_at: null, restock_count: 0, delisted_at: 700 };
   const r = decideChanges(prev, { price: 100, compare_at: null, qty: 5, available: true }, 6000);

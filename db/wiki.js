@@ -27,7 +27,7 @@ CREATE INDEX IF NOT EXISTS idx_links_slug ON model_links(model_slug);
 
 function open(dbPath, { readonly = false } = {}) {
   const db = new Database(dbPath, { readonly });
-  if (!readonly) { db.pragma('journal_mode = WAL'); db.exec(SCHEMA); }
+  if (!readonly) { db.pragma('journal_mode = WAL'); db.pragma('busy_timeout = 5000'); db.exec(SCHEMA); }
   const assertWritable = () => { if (readonly) throw new Error('readonly'); };
   return {
     db,

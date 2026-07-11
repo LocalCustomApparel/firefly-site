@@ -4,7 +4,7 @@ const { esc, money, timeAgo, md, layout } = require('../lib/render');
 
 module.exports = (app, { gdb, wdb }) => {
   const codeOf = store => (cfg.byStore[store] || {}).code || 'us';
-  const href = (mapping, store, id) => mapping ? `/models/${mapping.model_slug}` : `/listing/${codeOf(store)}/${id}`;
+  const href = (mapping, store, id) => mapping ? `/models/${esc(mapping.model_slug)}` : `/listing/${esc(codeOf(store))}/${esc(id)}`;
   const storeBadge = store => `<span class="badge">${esc((cfg.byStore[store] || {}).label || store)}</span>`;
   const mapOf = rows => {
     const m = new Map();
@@ -165,6 +165,7 @@ ${p.image ? `<img class="hero-img" src="${esc(p.image)}" alt="">` : ''}
     res.json(h);
   });
   app.get('/api/site/model/:slug/history.json', (req, res) => {
+    if (!wdb.getModel(req.params.slug)) return res.status(404).json({ error: 'not found' });
     const series = wdb.mappingsForModel(req.params.slug)
       .map(m => historyOf(m.store, m.product_id)).filter(Boolean);
     res.json({ series });
