@@ -1,62 +1,955 @@
 [
-  { "slug": "ff338", "name": "FF338", "family": "Semi-hollow (335-style)", "status": "current", "sort_order": 1, "aliases": ["FF338","FF-338","338"], "specs": {} },
-  { "slug": "ffth", "name": "FFTH Thinline", "family": "Semi-hollow (Thinline)", "status": "current", "sort_order": 2, "aliases": ["FFTH","Thinline"], "specs": {"Top":"Solid Spruce","Back/Sides":"Mahogany","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fflps", "name": "FFLPS", "family": "Single-cut (LP-style)", "status": "current", "sort_order": 3, "aliases": ["FFLPS","FFLP","LPS"], "specs": {} },
-  { "slug": "ffdc", "name": "FFDC", "family": "Double-cut", "status": "current", "sort_order": 4, "aliases": ["FFDC"], "specs": {} },
-  { "slug": "ffst", "name": "FFST", "family": "S-style", "status": "current", "sort_order": 5, "aliases": ["FFST"], "specs": {"Body":"Mahogany","Neck":"Roasted maple (plain or flamed, depending on finish)","Fretboard":"Maple or rosewood, 9.5\"–14\" compound radius","Pickups":"Alnico 5 (customized)","Bridge/Tuners":"Korea-made bridge, locking tuners","Frets":"Stainless","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fftl", "name": "FFTL", "family": "T-style", "status": "current", "sort_order": 6, "aliases": ["FFTL"], "specs": {"Body":"Ash or mahogany, depending on variant","Neck":"Roasted maple (plain or flamed)","Fretboard":"Maple or rosewood, 9.5\"–14\" compound radius","Pickups":"Alnico 5 (customized)","Bridge/Tuners":"Korea-made bridge, locking tuners (some variants: brass saddles)","Frets":"Stainless","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffsp", "name": "FFSP", "family": "SP-style", "status": "current", "sort_order": 7, "aliases": ["FFSP"], "specs": {"Body/Neck":"Mahogany","Top":"Maple top on flamed-top variants","Fretboard":"Rosewood","Pickups":"Alnico / Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fflg", "name": "FFLG", "family": "LG-style", "status": "current", "sort_order": 8, "aliases": ["FFLG"], "specs": {} },
-  { "slug": "ffvx", "name": "FFVX", "family": "V-style", "status": "current", "sort_order": 9, "aliases": ["FFVX"], "specs": {"Body/Neck":"Mahogany","Fretboard":"Maple or rosewood, depending on variant","Pickups":"Alnico","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "pegasus", "name": "Pegasus", "family": "Offset", "status": "current", "sort_order": 10, "aliases": ["Pegasus"], "specs": {"Body":"Full hollow body, mahogany with a maple center strip; grain pattern varies per instrument","Bridge/Tailpiece":"Rosewood","Fretboard":"Rosewood","Frets":"Stainless steel","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffhb", "name": "Hollow Body", "family": "Full hollow", "status": "current", "sort_order": 11, "aliases": ["FFHB","Hollow Body","Hollowbody"], "specs": {"Body/Neck":"Mahogany or maple, depending on variant","Top":"Flamed maple on some variants","Fretboard":"Rosewood","Pickups":"Alnico / Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fflgs", "name": "FFLGS", "family": "SG-style", "status": "current", "sort_order": 12, "aliases": ["FFLGS","FFLGS ELECTRIC GUITARS Spalted Maple"], "specs": {} },
-  { "slug": "ffsps", "name": "FFSPS", "family": "Single-cut (LP-style)", "status": "current", "sort_order": 13, "aliases": ["FFSPS","FF SPS","FFSPS ELECTRIC GUITARS Spalted Maple"], "specs": {"Body/Neck":"Mahogany","Construction":"Semi-hollow body with F-hole on some variants","Fretboard":"Rosewood","Pickups":"Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fflx", "name": "FFLX", "family": "LX-style", "status": "current", "sort_order": 14, "aliases": ["FFLX"], "specs": {"Body/Neck":"Mahogany","Scale length":"27\"","Fretboard":"Rosewood or maple, depending on variant","Pickups":"Alnico","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fflv", "name": "FFLV", "family": "V-style (Flying V)", "status": "current", "sort_order": 15, "aliases": ["FFLV"], "specs": {} },
-  { "slug": "ffja", "name": "FFJA", "family": "Offset (JA-style)", "status": "current", "sort_order": 16, "aliases": ["FFJA"], "specs": {"Body":"Mahogany","Neck":"Canada flamed maple","Fretboard":"9.5\"–14\" compound radius","Pickups":"Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffmn", "name": "FFMN", "family": "Semi-hollow (Maple Top)", "status": "current", "sort_order": 17, "aliases": ["FFMN","Flame Maple Full Size Semi Hollow","Flamed Maple Full Size Semi Hollow","Quilt Maple Full Size Semi Hollow","Spalted Maple Full Size Semi Hollow"], "specs": {"Body":"Mahogany","Neck":"Canada flamed maple","Fretboard":"Flamed maple, maple, or rosewood, depending on top variant; 9.5\"–14\" compound radius","Top":"Flamed maple or spalted maple, depending on variant","Tremolo":"Floyd Rose on some variants","Frets":"Stainless","Strings":"Nickel"} },
-  { "slug": "ffdb", "name": "FFDB", "family": "Firebird-style", "status": "current", "sort_order": 18, "aliases": ["FFDB","FFDBN"], "specs": {"Body":"Mahogany","Neck":"Mahogany or Canada maple, depending on variant","Fretboard":"Rosewood","Pickups":"Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ff338pro", "name": "FF338PRO", "family": "Semi-hollow (335-style, PRO)", "status": "current", "sort_order": 19, "aliases": ["FF338PRO","FF338 PRO","FF338-PRO","FF338PRO Full Size Semi Hollow","FF338 PRO Full Size Semi Hollow","FF338PRO 12 Strings","FF338PRO Spalted Maple Full Size Semi Hollow","FF338PRO Baritone","Full Size FF338PRO"], "specs": {"Fretboard":"Rosewood","Pickups":"Alnico (customized)","Frets":"Stainless, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "vxstar", "name": "VX Star", "family": "Star-shape (VX Star / Woden God)", "status": "current", "sort_order": 20, "aliases": ["VX Star","VX Woden god","VX Woden God"], "specs": {"Body":"Mahogany","Neck":"Maple","Fretboard":"Rosewood","Pickups":"Alnico","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffpr", "name": "FFPR", "family": "PR-style", "status": "current", "sort_order": 21, "aliases": ["FFPR"], "specs": {"Body/Neck":"Mahogany","Top":"Maple","Fretboard":"Rosewood","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "aerosonic", "name": "Aerosonic", "family": "Aerosonic", "status": "current", "sort_order": 22, "aliases": ["Aerosonic"], "specs": {} },
-  { "slug": "fftc", "name": "FFTC", "family": "TC-style", "status": "current", "sort_order": 23, "aliases": ["FFTC"], "specs": {"Body/Neck":"Mahogany","Fretboard":"Rosewood","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fftls", "name": "FFTLS", "family": "T-style (S variant)", "status": "current", "sort_order": 24, "aliases": ["FFTLS"], "specs": {} },
-  { "slug": "ffls", "name": "FFLS / Little Sister", "family": "Full hollow (Little Sister)", "status": "current", "sort_order": 25, "aliases": ["FFLS","Little Sister"], "specs": {} },
-  { "slug": "ol", "name": "OL", "family": "OL-style (Baritone/Bass)", "status": "current", "sort_order": 26, "aliases": ["OL Baritone","OL Bass"], "specs": {} },
-  { "slug": "solstice", "name": "Solstice", "family": "Solstice", "status": "current", "sort_order": 27, "aliases": ["Solstice"], "specs": {} },
-  { "slug": "re-bass", "name": "RE Bass", "family": "Bass (RE-style)", "status": "current", "sort_order": 28, "aliases": ["RE Bass"], "specs": {"Body":"Mahogany","Neck":"Canada maple","Fretboard":"Rosewood","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffzvx", "name": "FFZVX", "family": "ZVX-style", "status": "current", "sort_order": 29, "aliases": ["FFZVX"], "specs": {"Body/Neck":"Mahogany","Fretboard":"Rosewood","Pickups":"Alnico","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ffmd", "name": "FFMD", "family": "MD-style", "status": "current", "sort_order": 30, "aliases": ["FFMD"], "specs": {"Body/Neck":"Mahogany","Fretboard":"Rosewood","Pickups":"Alnico","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "fffb", "name": "FFFB", "family": "FB-style", "status": "current", "sort_order": 31, "aliases": ["FFFB"], "specs": {} },
-  { "slug": "ffib", "name": "FFIB", "family": "IB-style", "status": "current", "sort_order": 32, "aliases": ["FFIB"], "specs": {} },
-  { "slug": "fffd", "name": "FFFD", "family": "FD-style", "status": "current", "sort_order": 33, "aliases": ["FFFD"], "specs": {"Body/Neck":"Mahogany","Fretboard":"Rosewood","Pickups":"Alnico 5","Frets":"Stainless steel, ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "bone-shredder", "name": "Bone Shredder", "family": "Bone Shredder", "status": "current", "sort_order": 34, "aliases": ["Bone Shredder"], "specs": {"Body":"Ash","Neck":"Roasted maple","Fretboard":"Rosewood, 9.5\"–14\" compound radius","Bridge":"Korea-made bridge","Pickups":"Alnico 5 (customized)","Frets":"Stainless","Strings":"Nickel"} },
-  { "slug": "ffbx", "name": "FFBX", "family": "BX-style", "status": "current", "sort_order": 35, "aliases": ["FFBX"], "specs": {} },
-  { "slug": "x-shaped", "name": "X-Shaped", "family": "X-Shaped", "status": "current", "sort_order": 36, "aliases": ["X-Shaped"], "specs": {} },
-  { "slug": "re01", "name": "RE01 Resonator", "family": "Acoustic (Resonator)", "status": "current", "sort_order": 37, "aliases": ["RE01"], "specs": {} },
-  { "slug": "je45", "name": "JE45", "family": "Acoustic", "status": "current", "sort_order": 38, "aliases": ["JE45","JE-45"], "specs": {"Top":"Solid spruce","Back/Sides":"Mahogany","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ga09", "name": "GA09", "family": "Acoustic", "status": "current", "sort_order": 39, "aliases": ["GA09"], "specs": {"Top":"Solid spruce","Back/Sides":"Rosewood","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "g045", "name": "G045", "family": "Acoustic", "status": "current", "sort_order": 40, "aliases": ["G045"], "specs": {"Body shape":"OOO","Top":"Solid spruce","Back/Sides":"Rosewood","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "jc630", "name": "JC630", "family": "Acoustic", "status": "current", "sort_order": 41, "aliases": ["JC630"], "specs": {"Top":"Solid spruce","Back/Sides":"Flamed maple","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "jc630s", "name": "JC630S", "family": "Acoustic", "status": "current", "sort_order": 42, "aliases": ["JC630S"], "specs": {"Top":"Solid spruce","Back/Sides":"Flamed maple","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "pa40", "name": "PA40", "family": "Acoustic", "status": "current", "sort_order": 43, "aliases": ["PA40"], "specs": {"Top":"Solid spruce","Back/Sides":"Mahogany","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "jm45ga", "name": "JM45GA", "family": "Acoustic", "status": "current", "sort_order": 44, "aliases": ["JM45GA"], "specs": {"Top":"Solid spruce","Back/Sides":"Rosewood","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "g042", "name": "G042", "family": "Acoustic", "status": "current", "sort_order": 45, "aliases": ["G042"], "specs": {"Body shape":"OOO","Top":"Solid mahogany","Back/Sides":"Rosewood","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "jm42", "name": "JM42", "family": "Acoustic", "status": "current", "sort_order": 46, "aliases": ["JM42"], "specs": {"Body shape":"OM","Top":"Solid mahogany","Back/Sides":"Rosewood","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "je16", "name": "JE-16", "family": "Acoustic", "status": "current", "sort_order": 47, "aliases": ["JE-16","JE16"], "specs": {"Top":"Solid spruce","Back/Sides":"Mahogany","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "jm40", "name": "JM40", "family": "Acoustic", "status": "current", "sort_order": 48, "aliases": ["JM40"], "specs": {"Top":"Solid mahogany","Back/Sides":"Mahogany","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "bt60", "name": "BT-60", "family": "Acoustic", "status": "current", "sort_order": 49, "aliases": ["BT-60","BT60"], "specs": {"Scale length":"27\"","Top":"Solid spruce","Back/Sides":"Mahogany","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "ga01", "name": "GA01", "family": "Acoustic", "status": "current", "sort_order": 50, "aliases": ["GA01"], "specs": {"Top":"AAA solid spruce","Back/Sides":"Mahogany","Body":"Comfort-cut armrest bevel","Electronics":"Fishman Presys EQ","Fretboard/Bridge/Headstock face":"Rosewood","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, nickel strings"} },
-  { "slug": "gf41", "name": "GF41", "family": "Acoustic", "status": "current", "sort_order": 51, "aliases": ["GF41"], "specs": {"Top":"Solid spruce","Back/Sides":"Solid Indian rosewood","Bracing":"Handmade X-bracing","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, D'Addario strings"} },
-  { "slug": "gac25", "name": "GAC25", "family": "Classical", "status": "current", "sort_order": 52, "aliases": ["GAC25"], "specs": {"Top":"Solid spruce","Back/Sides":"Solid mahogany","Bracing":"Lattice bracing, Spanish heel neck joint","Binding":"Abalone","Frets":"Ball end","Nut/Strings":"Bone nut, D'Addario strings"} },
-  { "slug": "da01", "name": "DA01", "family": "Acoustic", "status": "current", "sort_order": 53, "aliases": ["DA01"], "specs": {} },
-  { "slug": "da02", "name": "DA02", "family": "Acoustic", "status": "current", "sort_order": 54, "aliases": ["DA02"], "specs": {} },
-  { "slug": "gd18", "name": "GD18", "family": "Acoustic", "status": "current", "sort_order": 55, "aliases": ["GD18"], "specs": {} },
-  { "slug": "gd38", "name": "GD38", "family": "Acoustic", "status": "current", "sort_order": 56, "aliases": ["GD38"], "specs": {} },
-  { "slug": "gd45", "name": "GD45", "family": "Acoustic", "status": "current", "sort_order": 57, "aliases": ["GD45"], "specs": {} },
-  { "slug": "gm28", "name": "GM28", "family": "Acoustic", "status": "current", "sort_order": 58, "aliases": ["GM28"], "specs": {} },
-  { "slug": "gk12", "name": "GK12", "family": "Acoustic", "status": "current", "sort_order": 59, "aliases": ["GK12","GK12-E"], "specs": {} },
-  { "slug": "j-bass", "name": "J Bass", "family": "Bass (J-style)", "status": "current", "sort_order": 60, "aliases": ["J Bass","PJ Bass"], "specs": {} }
+  {
+    "slug": "ff338",
+    "name": "FF338",
+    "family": "Semi-hollow (335-style)",
+    "status": "current",
+    "sort_order": 1,
+    "aliases": [
+      "FF338",
+      "FF-338",
+      "338",
+      "FF338 Full Size Semi Hollow"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffth",
+    "name": "FFTH Thinline",
+    "family": "Semi-hollow (Thinline)",
+    "status": "current",
+    "sort_order": 2,
+    "aliases": [
+      "FFTH",
+      "Thinline"
+    ],
+    "specs": {
+      "Top": "Solid Spruce",
+      "Back/Sides": "Mahogany",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fflps",
+    "name": "FFLPS",
+    "family": "Single-cut (LP-style)",
+    "status": "current",
+    "sort_order": 3,
+    "aliases": [
+      "FFLPS",
+      "FFLP",
+      "LPS"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffdc",
+    "name": "FFDC",
+    "family": "Double-cut",
+    "status": "current",
+    "sort_order": 4,
+    "aliases": [
+      "FFDC"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffst",
+    "name": "FFST",
+    "family": "S-style",
+    "status": "current",
+    "sort_order": 5,
+    "aliases": [
+      "FFST"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Roasted maple (plain or flamed, depending on finish)",
+      "Fretboard": "Maple or rosewood, 9.5\"–14\" compound radius",
+      "Pickups": "Alnico 5 (customized)",
+      "Bridge/Tuners": "Korea-made bridge, locking tuners",
+      "Frets": "Stainless",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fftl",
+    "name": "FFTL",
+    "family": "T-style",
+    "status": "current",
+    "sort_order": 6,
+    "aliases": [
+      "FFTL"
+    ],
+    "specs": {
+      "Body": "Ash or mahogany, depending on variant",
+      "Neck": "Roasted maple (plain or flamed)",
+      "Fretboard": "Maple or rosewood, 9.5\"–14\" compound radius",
+      "Pickups": "Alnico 5 (customized)",
+      "Bridge/Tuners": "Korea-made bridge, locking tuners (some variants: brass saddles)",
+      "Frets": "Stainless",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffsp",
+    "name": "FFSP",
+    "family": "SP-style",
+    "status": "current",
+    "sort_order": 7,
+    "aliases": [
+      "FFSP"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Top": "Maple top on flamed-top variants",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico / Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fflg",
+    "name": "FFLG",
+    "family": "LG-style",
+    "status": "current",
+    "sort_order": 8,
+    "aliases": [
+      "FFLG"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffvx",
+    "name": "FFVX",
+    "family": "V-style",
+    "status": "current",
+    "sort_order": 9,
+    "aliases": [
+      "FFVX"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Fretboard": "Maple or rosewood, depending on variant",
+      "Pickups": "Alnico",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "pegasus",
+    "name": "Pegasus",
+    "family": "Offset",
+    "status": "current",
+    "sort_order": 10,
+    "aliases": [
+      "Pegasus"
+    ],
+    "specs": {
+      "Body": "Full hollow body, mahogany with a maple center strip; grain pattern varies per instrument",
+      "Bridge/Tailpiece": "Rosewood",
+      "Fretboard": "Rosewood",
+      "Frets": "Stainless steel",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffhb",
+    "name": "Hollow Body",
+    "family": "Full hollow",
+    "status": "current",
+    "sort_order": 11,
+    "aliases": [
+      "FFHB",
+      "Hollow Body",
+      "Hollowbody"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany or maple, depending on variant",
+      "Top": "Flamed maple on some variants",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico / Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fflgs",
+    "name": "FFLGS",
+    "family": "SG-style",
+    "status": "current",
+    "sort_order": 12,
+    "aliases": [
+      "FFLGS",
+      "FFLGS ELECTRIC GUITARS Spalted Maple"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffsps",
+    "name": "FFSPS",
+    "family": "Single-cut (LP-style)",
+    "status": "current",
+    "sort_order": 13,
+    "aliases": [
+      "FFSPS",
+      "FF SPS",
+      "FFSPS ELECTRIC GUITARS Spalted Maple"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Construction": "Semi-hollow body with F-hole on some variants",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fflx",
+    "name": "FFLX",
+    "family": "LX-style",
+    "status": "current",
+    "sort_order": 14,
+    "aliases": [
+      "FFLX"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Scale length": "27\"",
+      "Fretboard": "Rosewood or maple, depending on variant",
+      "Pickups": "Alnico",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fflv",
+    "name": "FFLV",
+    "family": "V-style (Flying V)",
+    "status": "current",
+    "sort_order": 15,
+    "aliases": [
+      "FFLV"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffja",
+    "name": "FFJA",
+    "family": "Offset (JA-style)",
+    "status": "current",
+    "sort_order": 16,
+    "aliases": [
+      "FFJA"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Canada flamed maple",
+      "Fretboard": "9.5\"–14\" compound radius",
+      "Pickups": "Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffmn",
+    "name": "FFMN",
+    "family": "Semi-hollow (Maple Top)",
+    "status": "current",
+    "sort_order": 17,
+    "aliases": [
+      "FFMN",
+      "Flame Maple Full Size Semi Hollow",
+      "Flamed Maple Full Size Semi Hollow",
+      "Quilt Maple Full Size Semi Hollow",
+      "Spalted Maple Full Size Semi Hollow"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Canada flamed maple",
+      "Fretboard": "Flamed maple, maple, or rosewood, depending on top variant; 9.5\"–14\" compound radius",
+      "Top": "Flamed maple or spalted maple, depending on variant",
+      "Tremolo": "Floyd Rose on some variants",
+      "Frets": "Stainless",
+      "Strings": "Nickel"
+    }
+  },
+  {
+    "slug": "ffdb",
+    "name": "FFDB",
+    "family": "Firebird-style",
+    "status": "current",
+    "sort_order": 18,
+    "aliases": [
+      "FFDB",
+      "FFDBN"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Mahogany or Canada maple, depending on variant",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ff338pro",
+    "name": "FF338PRO",
+    "family": "Semi-hollow (335-style, PRO)",
+    "status": "current",
+    "sort_order": 19,
+    "aliases": [
+      "FF338PRO",
+      "FF338 PRO",
+      "FF338-PRO",
+      "FF338PRO Full Size Semi Hollow",
+      "FF338 PRO Full Size Semi Hollow",
+      "FF338PRO 12 Strings",
+      "FF338PRO Spalted Maple Full Size Semi Hollow",
+      "FF338PRO Baritone",
+      "Full Size FF338PRO"
+    ],
+    "specs": {
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico (customized)",
+      "Frets": "Stainless, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "vxstar",
+    "name": "VX Star",
+    "family": "Star-shape (VX Star / Woden God)",
+    "status": "current",
+    "sort_order": 20,
+    "aliases": [
+      "VX Star",
+      "VX Woden god",
+      "VX Woden God"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Maple",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffpr",
+    "name": "FFPR",
+    "family": "PR-style",
+    "status": "current",
+    "sort_order": 21,
+    "aliases": [
+      "FFPR"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Top": "Maple",
+      "Fretboard": "Rosewood",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "aerosonic",
+    "name": "Aerosonic",
+    "family": "Aerosonic",
+    "status": "current",
+    "sort_order": 22,
+    "aliases": [
+      "Aerosonic"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "fftc",
+    "name": "FFTC",
+    "family": "TC-style",
+    "status": "current",
+    "sort_order": 23,
+    "aliases": [
+      "FFTC"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Fretboard": "Rosewood",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fftls",
+    "name": "FFTLS",
+    "family": "T-style (S variant)",
+    "status": "current",
+    "sort_order": 24,
+    "aliases": [
+      "FFTLS"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffls",
+    "name": "FFLS / Little Sister",
+    "family": "Full hollow (Little Sister)",
+    "status": "current",
+    "sort_order": 25,
+    "aliases": [
+      "FFLS",
+      "Little Sister"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ol",
+    "name": "OL",
+    "family": "OL-style (Baritone/Bass)",
+    "status": "current",
+    "sort_order": 26,
+    "aliases": [
+      "OL Baritone",
+      "OL Bass"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "solstice",
+    "name": "Solstice",
+    "family": "Solstice",
+    "status": "current",
+    "sort_order": 27,
+    "aliases": [
+      "Solstice"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "re-bass",
+    "name": "RE Bass",
+    "family": "Bass (RE-style)",
+    "status": "current",
+    "sort_order": 28,
+    "aliases": [
+      "RE Bass"
+    ],
+    "specs": {
+      "Body": "Mahogany",
+      "Neck": "Canada maple",
+      "Fretboard": "Rosewood",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffzvx",
+    "name": "FFZVX",
+    "family": "ZVX-style",
+    "status": "current",
+    "sort_order": 29,
+    "aliases": [
+      "FFZVX"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ffmd",
+    "name": "FFMD",
+    "family": "MD-style",
+    "status": "current",
+    "sort_order": 30,
+    "aliases": [
+      "FFMD"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "fffb",
+    "name": "FFFB",
+    "family": "FB-style",
+    "status": "current",
+    "sort_order": 31,
+    "aliases": [
+      "FFFB"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "ffib",
+    "name": "FFIB",
+    "family": "IB-style",
+    "status": "current",
+    "sort_order": 32,
+    "aliases": [
+      "FFIB"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "fffd",
+    "name": "FFFD",
+    "family": "FD-style",
+    "status": "current",
+    "sort_order": 33,
+    "aliases": [
+      "FFFD"
+    ],
+    "specs": {
+      "Body/Neck": "Mahogany",
+      "Fretboard": "Rosewood",
+      "Pickups": "Alnico 5",
+      "Frets": "Stainless steel, ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "bone-shredder",
+    "name": "Bone Shredder",
+    "family": "Bone Shredder",
+    "status": "current",
+    "sort_order": 34,
+    "aliases": [
+      "Bone Shredder"
+    ],
+    "specs": {
+      "Body": "Ash",
+      "Neck": "Roasted maple",
+      "Fretboard": "Rosewood, 9.5\"–14\" compound radius",
+      "Bridge": "Korea-made bridge",
+      "Pickups": "Alnico 5 (customized)",
+      "Frets": "Stainless",
+      "Strings": "Nickel"
+    }
+  },
+  {
+    "slug": "ffbx",
+    "name": "FFBX",
+    "family": "BX-style",
+    "status": "current",
+    "sort_order": 35,
+    "aliases": [
+      "FFBX"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "x-shaped",
+    "name": "X-Shaped",
+    "family": "X-Shaped",
+    "status": "current",
+    "sort_order": 36,
+    "aliases": [
+      "X-Shaped"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "re01",
+    "name": "RE01 Resonator",
+    "family": "Acoustic (Resonator)",
+    "status": "current",
+    "sort_order": 37,
+    "aliases": [
+      "RE01"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "je45",
+    "name": "JE45",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 38,
+    "aliases": [
+      "JE45",
+      "JE-45"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Mahogany",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ga09",
+    "name": "GA09",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 39,
+    "aliases": [
+      "GA09"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Rosewood",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "g045",
+    "name": "G045",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 40,
+    "aliases": [
+      "G045"
+    ],
+    "specs": {
+      "Body shape": "OOO",
+      "Top": "Solid spruce",
+      "Back/Sides": "Rosewood",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "jc630",
+    "name": "JC630",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 41,
+    "aliases": [
+      "JC630"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Flamed maple",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "jc630s",
+    "name": "JC630S",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 42,
+    "aliases": [
+      "JC630S"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Flamed maple",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "pa40",
+    "name": "PA40",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 43,
+    "aliases": [
+      "PA40"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Mahogany",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "jm45ga",
+    "name": "JM45GA",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 44,
+    "aliases": [
+      "JM45GA"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Rosewood",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "g042",
+    "name": "G042",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 45,
+    "aliases": [
+      "G042"
+    ],
+    "specs": {
+      "Body shape": "OOO",
+      "Top": "Solid mahogany",
+      "Back/Sides": "Rosewood",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "jm42",
+    "name": "JM42",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 46,
+    "aliases": [
+      "JM42"
+    ],
+    "specs": {
+      "Body shape": "OM",
+      "Top": "Solid mahogany",
+      "Back/Sides": "Rosewood",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "je16",
+    "name": "JE-16",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 47,
+    "aliases": [
+      "JE-16",
+      "JE16"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Mahogany",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "jm40",
+    "name": "JM40",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 48,
+    "aliases": [
+      "JM40"
+    ],
+    "specs": {
+      "Top": "Solid mahogany",
+      "Back/Sides": "Mahogany",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "bt60",
+    "name": "BT-60",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 49,
+    "aliases": [
+      "BT-60",
+      "BT60"
+    ],
+    "specs": {
+      "Scale length": "27\"",
+      "Top": "Solid spruce",
+      "Back/Sides": "Mahogany",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "ga01",
+    "name": "GA01",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 50,
+    "aliases": [
+      "GA01"
+    ],
+    "specs": {
+      "Top": "AAA solid spruce",
+      "Back/Sides": "Mahogany",
+      "Body": "Comfort-cut armrest bevel",
+      "Electronics": "Fishman Presys EQ",
+      "Fretboard/Bridge/Headstock face": "Rosewood",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, nickel strings"
+    }
+  },
+  {
+    "slug": "gf41",
+    "name": "GF41",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 51,
+    "aliases": [
+      "GF41"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Solid Indian rosewood",
+      "Bracing": "Handmade X-bracing",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, D'Addario strings"
+    }
+  },
+  {
+    "slug": "gac25",
+    "name": "GAC25",
+    "family": "Classical",
+    "status": "current",
+    "sort_order": 52,
+    "aliases": [
+      "GAC25"
+    ],
+    "specs": {
+      "Top": "Solid spruce",
+      "Back/Sides": "Solid mahogany",
+      "Bracing": "Lattice bracing, Spanish heel neck joint",
+      "Binding": "Abalone",
+      "Frets": "Ball end",
+      "Nut/Strings": "Bone nut, D'Addario strings"
+    }
+  },
+  {
+    "slug": "da01",
+    "name": "DA01",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 53,
+    "aliases": [
+      "DA01"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "da02",
+    "name": "DA02",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 54,
+    "aliases": [
+      "DA02"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "gd18",
+    "name": "GD18",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 55,
+    "aliases": [
+      "GD18"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "gd38",
+    "name": "GD38",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 56,
+    "aliases": [
+      "GD38"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "gd45",
+    "name": "GD45",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 57,
+    "aliases": [
+      "GD45"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "gm28",
+    "name": "GM28",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 58,
+    "aliases": [
+      "GM28"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "gk12",
+    "name": "GK12",
+    "family": "Acoustic",
+    "status": "current",
+    "sort_order": 59,
+    "aliases": [
+      "GK12",
+      "GK12-E"
+    ],
+    "specs": {}
+  },
+  {
+    "slug": "j-bass",
+    "name": "J Bass",
+    "family": "Bass (J-style)",
+    "status": "current",
+    "sort_order": 60,
+    "aliases": [
+      "J Bass",
+      "PJ Bass"
+    ],
+    "specs": {}
+  }
 ]
