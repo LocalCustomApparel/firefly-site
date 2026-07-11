@@ -22,3 +22,10 @@ test('word boundary: 338 must not match 1338x', () => {
 test('no match returns null', () => {
   assert.equal(guessModel('Gig bag deluxe', MODELS), null);
 });
+test('full-width parens (real store title) normalize to ASCII for finish extraction', () => {
+  const MODELS_PRO = MODELS.concat([{ slug: 'ff338pro', aliases: ['FF338PRO Full Size Semi Hollow', 'FF338PRO'] }]);
+  const r1 = guessModel('Firefly FF338PRO Full Size Semi Hollow body Electric Guitar （Cobra Color)', MODELS_PRO);
+  assert.deepEqual(r1, { slug: 'ff338pro', finish: 'Cobra Color' });
+  const r2 = guessModel('Firefly FF338PRO Full Size Semi Hollow body Electric Guitar (White Color）', MODELS_PRO);
+  assert.deepEqual(r2, { slug: 'ff338pro', finish: 'White Color' });
+});
