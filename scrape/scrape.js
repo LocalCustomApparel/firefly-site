@@ -11,6 +11,10 @@ const LOW_STOCK = 5;
 // The rest go to pure staleness rotation so a handful of low-stock items can't monopolize a
 // scarce budget and starve the rest of the catalog from ever being read.
 const URGENCY_SLOTS = Number(process.env.GUITARS_URGENCY_SLOTS ?? 1);
+// After a rate-limit (429 / bot challenge) the store's per-IP throttle needs time to recover,
+// so pause pinging for this long rather than hammering a closed door every cycle.
+const COOLDOWN_MS = Number(process.env.GUITARS_COOLDOWN_MS ?? 20 * 60 * 1000);
+const cooldownKey = store => `ping_cooldown_until:${store}`;
 const PING_BASE_MS = Number(process.env.GUITARS_PING_BASE_MS ?? 1400);
 const PING_JITTER_MS = Number(process.env.GUITARS_PING_JITTER_MS ?? 700);
 const pingDelay = () => PING_BASE_MS + Math.floor(Math.random() * PING_JITTER_MS);
@@ -23,12 +27,16 @@ async function scrapeStore(storeCfg, { g, adapter }) {
   try {
     catalog = await adapter.fetchCatalog(storeCfg);
   } catch (e) {
+    if (e instanceof RateLimited) g.setMeta(cooldownKey(store), Date.now() + COOLDOWN_MS);
     g.recordRun(store, Date.now(), 0, 0, Date.now() - started, e.message);
     throw e;
   }
   const ts = Date.now();
   const items = catalog.map(n => ({ n, prev: g.getProduct(store, n.id) }));
-  const pingsOn = storeCfg.pings && adapter.supportsPings;
+  // A recent 429 arms a cooldown: keep recording the catalog (drops/delists) but hold off on
+  // stock pings until the store's per-IP throttle has had time to recover.
+  const coolingDown = ts < Number(g.getMeta(cooldownKey(store)) || 0);
+  const pingsOn = storeCfg.pings && adapter.supportsPings && !coolingDown;
 
   const rank = it => {
     const seenTier = it.prev ? 1 : 0;
@@ -93,9 +101,10 @@ async function scrapeStore(storeCfg, { g, adapter }) {
   const delisted = g.markDelisted(store, catalog.map(n => n.id), ts);
   for (const id of delisted) { g.insertEvent(store, id, ts, 'delisted', {}); eventCount++; }
 
+  if (rateLimitedMsg) g.setMeta(cooldownKey(store), ts + COOLDOWN_MS);
   const error = rateLimitedMsg ? `rate-limited after ${pinged} pings: ${rateLimitedMsg}` : null;
   g.recordRun(store, ts, catalog.length, 1, Date.now() - started, error);
-  return { seen: catalog.length, pinged, events: eventCount, rateLimited: !!rateLimitedMsg };
+  return { seen: catalog.length, pinged, events: eventCount, rateLimited: !!rateLimitedMsg, coolingDown };
 }
 
 async function main() {
@@ -108,7 +117,7 @@ async function main() {
     if (!sc) { console.error(`[ff-scrape] unknown store: ${code}`); failed = true; continue; }
     try {
       const r = await scrapeStore(sc, { g });
-      console.log(`[ff-scrape] ${sc.store}: ${r.seen} products, ${r.pinged} pings, ${r.events} events${r.rateLimited ? ' (RATE-LIMITED)' : ''}`);
+      console.log(`[ff-scrape] ${sc.store}: ${r.seen} products, ${r.pinged} pings, ${r.events} events${r.rateLimited ? ' (RATE-LIMITED)' : ''}${r.coolingDown ? ' (cooling down — pings paused)' : ''}`);
     } catch (e) { failed = true; console.error(`[ff-scrape] ${sc.store} failed: ${e.message}`); }
   }
   g.close();

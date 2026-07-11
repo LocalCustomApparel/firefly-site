@@ -15,6 +15,9 @@ const cfg = require('../config');
 const DB = path.join(os.tmpdir(), `ff-scr-${process.pid}.db`);
 const g = open(DB);
 test.after(() => { g.close(); try { fs.unlinkSync(DB); } catch {} });
+// Tests share one DB; clear any armed rate-limit cooldown so a prior test's 429 can't
+// suppress pings in the next.
+test.beforeEach(() => { for (const s of ['guitarsgarden.com', 'guitarsgarden.co.uk']) g.setMeta(`ping_cooldown_until:${s}`, 0); });
 
 const prod = (id, over = {}) => ({
   id: String(id), variantId: '9', sku: null, handle: `h${id}`, title: `Firefly FF338 (${id})`,
@@ -184,4 +187,22 @@ test('UK restock (no pings): sold-out product becomes available again and reappe
   assert.equal(events.length, 1, 'should have exactly one restock event');
   const live = g.live({ store: 'guitarsgarden.co.uk' });
   assert.ok(live.some(x => x.id === '400'), 'restocked product should reappear on the live board');
+});
+
+test('rate-limit cooldown: a 429 pauses pinging on the following cycle, then records the catalog', async () => {
+  const catalog = [prod(600), prod(601)];
+  // Cycle 1: the first ping is rate-limited → arms a per-store cooldown.
+  const hot = { supportsPings: true, fetchCatalog: async () => catalog,
+    fetchQuantity: async () => { throw new RateLimited('quota exceeded'); } };
+  const r1 = await scrapeStore(cfg.STORES.us, { g, adapter: hot });
+  assert.ok(r1.rateLimited, 'cycle 1 is rate-limited');
+
+  // Cycle 2 (immediately after): pings would succeed, but the cooldown suppresses them.
+  let calls2 = 0;
+  const ok = { supportsPings: true, fetchCatalog: async () => catalog,
+    fetchQuantity: async () => { calls2++; return 42; } };
+  const r2 = await scrapeStore(cfg.STORES.us, { g, adapter: ok });
+  assert.equal(calls2, 0, 'fetchQuantity not called during cooldown');
+  assert.equal(r2.pinged, 0, 'no pings while cooling down');
+  assert.equal(r2.seen, 2, 'catalog is still recorded during cooldown');
 });

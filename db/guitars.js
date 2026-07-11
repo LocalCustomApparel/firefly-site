@@ -86,6 +86,8 @@ function open(dbPath, { readonly = false } = {}) {
     insertPrice: (store, id, ts, price, compareAt) => { assertWritable(); return w(q.price).run(store, S(id), ts, price, compareAt); },
     insertEvent: (store, id, ts, type, detail) => { assertWritable(); return w(q.event).run(store, S(id), ts, type, JSON.stringify(detail || {})); },
     recordRun: (store, ts, seen, full, ms, err) => { assertWritable(); return w(q.run).run(store, ts, seen, full ? 1 : 0, ms, err); },
+    getMeta: key => { const r = db.prepare('SELECT value FROM meta WHERE key = ?').get(key); return r ? r.value : null; },
+    setMeta: (key, value) => { assertWritable(); db.prepare('INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value').run(key, String(value)); },
     markDelisted(store, seenIds, ts) {
       assertWritable();
       const seen = new Set(seenIds.map(S));
