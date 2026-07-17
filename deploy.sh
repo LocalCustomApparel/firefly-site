@@ -13,6 +13,8 @@ if [ "$LOCAL" != "$REMOTE" ]; then
     npm install --production
   fi
 
-  pm2 restart ffsite
+  # Only restart the web process on boxes that run it — the tools droplet runs
+  # scrape crons only (no ffsite PM2 process).
+  pm2 describe ffsite >/dev/null 2>&1 && pm2 restart ffsite
   echo "$(date) — deployed $REMOTE" >> /var/log/ffsite-deploy.log
 fi
